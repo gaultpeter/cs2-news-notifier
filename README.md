@@ -12,16 +12,19 @@ This Cloudflare Worker monitors the Counter-Strike 2 Steam news feed and sends a
 ### 2. Create KV Namespace
 You need a KV namespace to store the ID of the last processed news item.
 ```bash
-npx wrangler kv:namespace create NEWS_STORAGE
+npx wrangler kv namespace create NEWS_STORAGE
 ```
 Copy the `id` from the output and paste it into `wrangler.toml` under `[[kv_namespaces]]`.
 
-### 3. Set Discord Webhook Secret
-Run this command to securely add your Discord Webhook URL:
+### 3. Set Environment Secrets
+Run these commands to securely add your Discord webhook and User ID:
 ```bash
+# Discord Webhook URL
 npx wrangler secret put DISCORD_WEBHOOK_URL
+
+# Your Discord User ID (to be pinged)
+npx wrangler secret put DISCORD_USER_ID
 ```
-When prompted, paste your Discord Webhook URL.
 
 ### 4. Deploy
 Deploy the worker to Cloudflare:
@@ -30,9 +33,10 @@ npx wrangler deploy
 ```
 
 ### 5. Testing
-Once deployed, you can visit `https://cs2-news-notifier.<your-subdomain>.workers.dev/test` to manually trigger a check.
+Once deployed, you can visit `https://cs2-news-notifier.<your-subdomain>.workers.dev/test` to manually trigger a check and notification.
 
 ## How it works
-- **Triggers**: It runs automatically every 15 minutes (configurable in `wrangler.toml`).
+- **Triggers**: It runs automatically every minute (configurable via cron in `wrangler.toml`).
 - **Data Source**: Uses the Steam Web API (`ISteamNews/GetNewsForApp/v2`).
 - **Persistence**: Remembers the last update using Cloudflare KV to avoid duplicate notifications.
+- **Mentions**: Uses the `DISCORD_USER_ID` secret to mention you in the Discord message.
