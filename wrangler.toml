@@ -1,0 +1,10 @@
+name = "cs2-news-notifier"
+main = "src/index.js"
+compatibility_date = "2024-01-01"
+
+[triggers]
+crons = ["*/15 * * * *"] # Check every 15 minutes
+
+[[kv_namespaces]]
+binding = "NEWS_STORAGE"
+id = "PLACEHOLDER_KV_ID" # User will need to create this and replace the ID
