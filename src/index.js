@@ -20,7 +20,7 @@ export default {
       if (!response.ok) {
         throw new Error(`Steam API returned ${response.status}`);
       }
-      
+
       const data = await response.json();
       const latestItem = data.appnews.newsitems[0];
 
@@ -59,7 +59,7 @@ async function notifyDiscord(item, webhookUrl) {
     .substring(0, 500) + (item.contents.length > 500 ? '...' : '');
 
   const payload = {
-    content: "🚀 **New CS2 Update!**",
+    content: "🚀 **New CS2 Update!** <@137946857954476032>",
     embeds: [{
       title: item.title,
       url: item.url,
