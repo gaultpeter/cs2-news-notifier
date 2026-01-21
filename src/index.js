@@ -34,7 +34,7 @@ export default {
 
       if (latestItem.gid !== lastGid) {
         console.log("New update detected! Sending notification...");
-        await notifyDiscord(latestItem, env.DISCORD_WEBHOOK_URL);
+        await notifyDiscord(latestItem, env);
         await env.NEWS_STORAGE.put('last_gid', latestItem.gid);
       } else {
         console.log("No new updates.");
@@ -45,7 +45,8 @@ export default {
   }
 };
 
-async function notifyDiscord(item, webhookUrl) {
+async function notifyDiscord(item, env) {
+  const webhookUrl = env.DISCORD_WEBHOOK_URL;
   if (!webhookUrl) {
     console.error("DISCORD_WEBHOOK_URL is not set!");
     return;
@@ -59,7 +60,7 @@ async function notifyDiscord(item, webhookUrl) {
     .substring(0, 500) + (item.contents.length > 500 ? '...' : '');
 
   const payload = {
-    content: "🚀 **New CS2 Update!** <@137946857954476032>",
+    content: `🚀 **New CS2 Update!** <@${env.DISCORD_USER_ID}>`,
     embeds: [{
       title: item.title,
       url: item.url,
