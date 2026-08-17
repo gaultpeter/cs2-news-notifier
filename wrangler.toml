@@ -2,9 +2,6 @@ name = "cs2-news-notifier"
 main = "src/index.js"
 compatibility_date = "2024-01-01"
 
-[triggers]
-crons = ["* * * * *"] # Check every 1 minute
-
 [[kv_namespaces]]
 binding = "NEWS_STORAGE"
 id = "84ed4b1bb4c3439884d64cd3b858ce97" # User will need to create this and replace the ID
